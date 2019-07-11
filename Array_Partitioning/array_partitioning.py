@@ -2,24 +2,28 @@ import sys
 
 
 def main(arr: list):
-	new_arr_1 = new_arr_2 = []
+	new_arr_1 = []
+	new_arr_2 = []
 	arr.sort(reverse=True)
-	sum_indicator = 0
 	for i in range(len(arr)):
-		if sum(arr[i:]) > sum(arr[:i]):  # if more later on in the list than before
-			sum_indicator = i + 1
-	new_arr_1 = arr[sum_indicator:]
-	new_arr_2 = arr[:sum_indicator]
+		print(i)
+		if len(new_arr_2) >= len(new_arr_1):
+			new_arr_1.append(arr[i])
+		else:
+			new_arr_2.append(arr[i])
+
 	print(f"list 1 {new_arr_1} \nlist 2 {new_arr_2}")
 	# finds a rough divide to make the two lists
 
+	diff = max(arr)
 	for i in range(len(arr)):
-		rebalance(new_arr_1, new_arr_2)
+		new_arr_1, new_arr_2 = rebalance(new_arr_1, new_arr_2, diff)
+
+	print(f"list 1 final {new_arr_1} \nlist 2 final {new_arr_2} \n diff = {sum(new_arr_1) - sum(new_arr_2)}")
 
 
-def rebalance(arr1: list, arr2: list):
+def rebalance(arr1: list, arr2: list, old_diff):
 	diff = sum(arr1) - sum(arr2)
-	print(f"diff : {diff}")
 	correction = diff // 2
 	if diff > 0:  # list 1 is bigger
 		idx = find_closest(arr1, correction)
@@ -31,8 +35,7 @@ def rebalance(arr1: list, arr2: list):
 		arr2.remove(arr2[idx])
 	else:
 		pass
-	print(f"list 1 final {arr1} \nlist 2 final {arr2}")
-
+	return arr1, arr2, sum(arr1) - sum(arr2)
 
 def find_closest(arr, correction):  # returns index of wanted value
 	diff = max(arr)
