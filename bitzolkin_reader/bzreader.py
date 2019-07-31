@@ -2,18 +2,46 @@ import sys
 import os
 
 
-def main(txt):
-	for line in txt:
-		print(line)
+class Day(object):
+	def __init__(self, date, firstday=False):
+		self.date = date
+		self.firstday = firstday
+		if date > '2019-06-01':
+			self.bonus = True
+		else:
+			self.bonus = False
+		self.pending = 0.0
+		self.wallet = 0.0
+		self.withdraw = 0.0
+		self.funding = 0.0
+		self.notes = ''
+
+	def __str__(self):
+		return self.date + "\t" + str(self.invested) + "\t" + str(self.wallet) + "\t" + str(self.pending) + "\t" + \
+			str(self.withdraw) + "\t" + str(self.funding) + "\t" + self.notes
+
+
+def main(txt, pkgs=0):
+	last_pending = 0.0
+	last_wallet = 0.0
+	add_phrase = ['BTC Package bonus for Order', 'BTC Daily Dividend For Order']
+
+	date = ''
+	for line in reversed(list(txt)):
+		line = line.split('\t')
+		if date == line[0]:
+			if
+
+
 
 
 if __name__ == "__main__":
-	print(len(sys.argv))
-	if len(sys.argv) != 2:
-		print("ERROR\nUSAGE -- python bzreader.py TEXTFILE")
+	if len(sys.argv) != 3:
+		print("ERROR\nUSAGE -- python bzreader.py TRANSACTION_FILE PKGS_FILE")
 	else:
 		try:
 			with open(sys.argv[1]) as txt:
+				print("Program starting")
 				main(txt)
 		except FileNotFoundError:
 			print(f"File name {sys.argv[1]} not found")
