@@ -1,5 +1,5 @@
 import sys
-import os
+import datetime
 
 
 def main(txt, pkgs):
@@ -10,7 +10,13 @@ def main(txt, pkgs):
 			if 'BTC' in line[1]:
 				data[line[0]] += float(line[3])
 			elif 'Backoffice' in line[1]:
-				data[line[0]] -= float(line[3])
+				data[line[0]] += float(line[3])
+				print(f"backoffice {float(line[3])}")
+		elif len(data) > 0:
+			year, month, day = line[0].split("-")
+			yesterday = (datetime.date(int(year), int(month), int(day)) - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+			print(f'line[0] {line[0]}, yesterday {yesterday}')
+			data[line[0]] = data[yesterday] + float(line[3])
 		else:
 			data[line[0]] = float(line[3])
 
