@@ -13,6 +13,7 @@ def main(txt, pkgs):
 				data[line[0]] += float(line[3])
 				print(f"backoffice {float(line[3])}")
 		elif len(data) > 0:
+			#TODO fix when in the beginning there isnt a transaction for every day
 			year, month, day = line[0].split("-")
 			yesterday = (datetime.date(int(year), int(month), int(day)) - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
 			print(f'line[0] {line[0]}, yesterday {yesterday}')
