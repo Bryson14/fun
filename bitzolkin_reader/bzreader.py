@@ -5,18 +5,15 @@ import datetime
 def get_yesterday(today):
 	year, month, day = today.split("-")
 	yesterday = (datetime.date(int(year), int(month), int(day)) - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
-	return today
+	return yesterday
 
 
 def rolling_data(dic, day_to_check):
-	try:
-		print(day_to_check)
-		yesterday = get_yesterday(day_to_check)
-		test = dic[yesterday]
+	yesterday = get_yesterday(day_to_check)
+	if yesterday in dic:
 		return yesterday
-	except KeyError:
-		rolling_data(dic, get_yesterday(yesterday))
-		pass
+	else:
+		return rolling_data(dic, yesterday)
 
 
 def main(txt, pkgs):
@@ -30,7 +27,8 @@ def main(txt, pkgs):
 				data[line[0]] += float(line[3])
 		elif len(data) > 0:  # starting a spot in the dictionary for a new day.
 			last_transaction_day = rolling_data(data, line[0])
-			data[line[0]] = data[last_transaction_day] + float[line[3]]
+			amount = data[last_transaction_day] + float(line[3])
+			data[line[0]] = amount
 
 		else:  # when adding the first day in the dictionary
 			data[line[0]] = float(line[3])
