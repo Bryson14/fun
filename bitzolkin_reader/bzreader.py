@@ -33,7 +33,8 @@ def main(txt, pkgs):
 		else:  # when adding the first day in the dictionary
 			data[line[0]] = float(line[3])
 
-	print(data)
+	for date in data:
+		print(date, " : ",data[date])
 
 
 if __name__ == "__main__":
