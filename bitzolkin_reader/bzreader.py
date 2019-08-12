@@ -16,7 +16,7 @@ def rolling_data(dic, day_to_check):
 		return rolling_data(dic, yesterday)
 
 
-def main(txt, pkgs):
+def wallet(txt):
 	data = {}
 	for line in reversed(list(txt)):
 		line = line.split('\t')
@@ -34,21 +34,18 @@ def main(txt, pkgs):
 			data[line[0]] = float(line[3])
 
 	for date in data:
-		print(date, " : ",data[date])
+		print(date, " : ", abs(round(data[date], 6)))
 
 
 if __name__ == "__main__":
-	if len(sys.argv) != 3:
-		print("ERROR\nUSAGE -- python bzreader.py TRANSACTION_FILE PKGS_FILE")
+	if len(sys.argv) != 2:
+		print("ERROR\nUSAGE -- python bzreader.py TRANSACTION_FILE")
 	else:
 		try:
 			txt = ''
-			pkgs = ''
 			with open(sys.argv[1]) as txt:
 				txt = txt.readlines()
-			with open(sys.argv[2]) as pkgs:
-				pkgs = pkgs.readlines()
-			main(txt, pkgs)
+			wallet(txt)
 
 		except FileNotFoundError:
 			print(f"File name {sys.argv[1]} or {sys.argv[2]} not found")
