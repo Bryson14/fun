@@ -51,6 +51,7 @@ if __name__ == "__main__":
 		print("USAGE: python array_partitioning.py # [# # # #]")
 		print("This divides the array into two list with the smallest possible difference between the sums of the lists")
 	else:
+		#need to get this to work better
 		values = sys.argv[1:]
 		values = [int(value) for value in values]
 		main(values)
