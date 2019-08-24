@@ -2,7 +2,7 @@ my_list = [1,2,3,4,5]
 
 for i in my_list:
 	new_list = my_list[:i]
-	new_list + my_list[ i+1 :]
+
 
  # print all permutation of this list
 
