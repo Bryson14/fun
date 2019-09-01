@@ -1,41 +1,60 @@
 import sys
 
 
-def validate_perm(a, N):
-	if sum(a) == N:
-		print(a)
+def verify_str_step(steps):
+	s = 0
+	for char in steps:
+		s += int(char)
+	return s
 
 
-def perm(a, length, n, N):
-	if length == 1:
-		validate_perm(a, N)
+def main(n, x):
+	og = []
+	cache = []
+	solved = False
+	for step in x:
+		og.append(str(step))
 
-	for i in range(length):
-		perm(a, length - 1, n, N)
+	while not solved:
 
-		if length & 1:
-			a[0], a[length - 1] = a[length - 1], a[0]
+		for i in range(len(og)):
+			base = og[i]
+			new_steps = stepper(n, x, base)
+			if new_steps:
+				for new in new_steps:
+					cache.append(new)
+			else:
+				cache.append(base)
+
+		og = cache[:]  #passed by value
+		cache = []
+
+		solved = True
+		for pos in og:
+			if verify_str_step(pos) >= n:
+				pass
+			else:
+				solved = False
+	print(og)
+
+
+def stepper(n, x, base):
+	modified = []
+	for i in range(len(x)):
+		if verify_str_step(base + str(x[i])) <= n:
+			modified.append(base + str(x[i]))
 		else:
-			a[i], a[length - 1] = a[length - 1], a[i]
-
-
-def main(N, steps_at_a_time=[1,2]):
-	if min(steps_at_a_time) > N:
-		print(f'No possible combination to climb {N} stairs in {min(steps_at_a_time)} step leaps')
-	#  do a recursive call and pick on number from the set at a time. Exhaust all posiblities one step at a time. If already tried, add to a set and keep moving on
-	else:
-		size = len(steps_at_a_time)
-		perm(steps_at_a_time, size, size, N)
-
-
+			#  new addition would make it too big
+			pass
+	return modified
 
 
 if __name__ == "__main__":
 	if len(sys.argv) == 2:
-		main(int(sys.argv[1]))
-	elif len(sys.argv) == 3:
-		main(int(sys.argv[1]), [int(i) for i in str(sys.argv[2]).split(',')])
+		main(int(sys.argv[1]), [1, 2])
+	elif len(sys.argv) > 2:
+		main(int(sys.argv[1]), [int(i) for i in sys.argv[2:]])
 	else:
 		print("USAGE: stair_step.py NSTEPS [AVAILABLE NUMBER OF STEPS TO WALK]")
 		print("i.e. if you want the person to only be able to walk 1, 3, or 4 stair at a time use...")
-		print('stair_step.py 15 1,3,4')
+		print('stair_step.py 15 1 3 4')
