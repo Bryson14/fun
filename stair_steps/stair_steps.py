@@ -9,6 +9,7 @@ def verify_str_step(steps):
 
 
 def main(n, x):
+	min_step = min(x)
 	og = []
 	cache = []
 	solved = False
@@ -26,15 +27,18 @@ def main(n, x):
 			else:
 				cache.append(base)
 
-		og = cache[:]  #passed by value
+		og = cache[:]  # passed by value
 		cache = []
 
 		solved = True
 		for pos in og:
-			if verify_str_step(pos) >= n:
+			if verify_str_step(pos) == n:
 				pass
+			elif verify_str_step(pos) + min_step > n:
+				og.remove(pos)  # remove stuck, impossible solutions
 			else:
 				solved = False
+
 	print(og)
 
 
