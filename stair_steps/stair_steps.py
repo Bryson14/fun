@@ -40,6 +40,7 @@ def main(n, x):
 				solved = False
 
 	print(og)
+	print(len(og))
 
 
 def stepper(n, x, base):
